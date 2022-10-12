@@ -47,8 +47,7 @@ app.post("/", async (req,res)=>{
     try {      
 
         let options = {
-            args: ['--no-sandbox'], 
-            ignoreDefaultArgs: ['--disable-extensions'],          
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],        
             headless: false,
         };
 
