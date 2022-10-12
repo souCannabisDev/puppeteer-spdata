@@ -55,6 +55,8 @@ app.post("/", async (req,res)=>{
         let page = await browser.newPage();
         await page.goto('https://web.spdataminhaclinica.com.br/login');
 
+        console.log("Tudo OK")
+
         var usernameInput = await page.$("input[name='username']");
         var passwordInput = await page.$("input[name='password']");
         var submit = await page.$("button[type='submit']");
@@ -269,10 +271,7 @@ app.post("/", async (req,res)=>{
           await page.keyboard.type(userbairro.toString(), {
             delay: 10
         }); 
-        
-        console.log("Tudo OK")
-
-        
+                 
      
     } catch (error) {
         console.log(error)
