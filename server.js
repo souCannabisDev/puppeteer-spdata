@@ -268,7 +268,9 @@ app.post("/", async (req,res)=>{
         await bairro.click();
           await page.keyboard.type(userbairro.toString(), {
             delay: 10
-        });   
+        }); 
+        
+        console.log("Tudo OK")
 
         
      
