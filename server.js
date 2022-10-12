@@ -11,147 +11,266 @@ app.post("/", async (req,res)=>{
 
     res.status(200)
 
-console.log(req.body)
-
     const user = req.body
-    console.log(user.firstname)
-    const primeironome = user.firstname
-    const sobrenome = user.lastname
-    const useremail = user.email
-    
 
+    var username = user.firstname + " " + user.lastname
+    var nameresponsavel = user.firstname_responsavel
+    var lastnameresponsavel = user.lastname_responsavel
+    var useremail = user.email
+    var usercpf = user.cpf
+    var usernumero = user.number
+    var userdata = user.data_nascimento
+    var userrg = user.rg
+    var userestado = user.state
+    var userbairro = user.bairro
+    var usergenero = user.genero
+    var usercidade = user.city
+    var userrua = user.adress1
+    var userendereco = user.address2
+    var userphone = user.mobile
+    var userphone2 = user.phone
+    var usercep = user.zipcode
+    var responsavel = user.responsavel
+    var rg_responsavel = user.rg_responsavel
+    var cpf_responsavel = user.cpf_responsavel
+    var data_responsavel = user.data_responsavel
+    var $cpf = ''
+    var $rg = ''
+    var $responsavel = ''
+
+    if(responsavel == 'NÃO. Sou responsável pelo tratamento de alguém.'){
+        $responsavel = nameresponsavel + " " + lastnameresponsavel
+        $cpf = cpf_responsavel
+        $rg = rg_responsavel
+    }
+  
     try {      
 
         let options = {
-            defaultViewport: {
-                width: 1366,
-                height: 768,
-            },
+            args: ['--no-sandbox'],           
             headless: false,
         };
 
         let browser = await puppeteer.launch(options);
         let page = await browser.newPage();
-        //await page.goto('https://web.spdataminhaclinica.com.br/login');
+        await page.goto('https://web.spdataminhaclinica.com.br/login');
 
         var usernameInput = await page.$("input[name='username']");
         var passwordInput = await page.$("input[name='password']");
         var submit = await page.$("button[type='submit']");
       
-        // await usernameInput.click();
-        //   await page.keyboard.type("sistemas@soucannabis.ong.br", {
-        //     delay: 10
-        // });
+         await usernameInput.click();
+         await page.keyboard.type("sistemas@soucannabis.ong.br", {
+             delay: 10
+         });
       
-        // await passwordInput.click();
-        //   await page.keyboard.type("Qp4jEX5ryf3&9!P#", {
-        //     delay: 10
-        // });
+         await passwordInput.click();
+         await page.keyboard.type("Qp4jEX5ryf3&9!P#", {
+             delay: 10
+         });
       
-        // await submit.click()
+         await submit.click()
       
-        // await page.waitForSelector("#main-navbar")
+         await page.waitForSelector("#main-navbar")
+
+         await delay(5000)
       
-        await page.goto("file:///C:/Users/felip/Downloads/Cadastro%20de%20paciente.html")
+        await page.goto("https://web.spdataminhaclinica.com.br/paciente/novo")
       
-        var nome = await page.$("input[name='nome']");
-        await nome.click();
-           await page.keyboard.type(primeironome, {
-            delay: 100
-        });
+         var nome = await page.$("input[name='nome']");
+         await nome.click();
+            await page.keyboard.type(username.toString(), {
+             delay: 100
+         });
+         await delay(1000)
+         var email = await page.$("input[name='email']");
+         await email.click();
+              await page.keyboard.type(useremail.toString(), {
+             delay: 100
+         });
+         await delay(1000)
+         var nomeResponsavel = await page.$("input[name='nomeResponsavel']");
+         await nomeResponsavel.click();
+           await page.keyboard.type($responsavel.toString(), {
+             delay: 100
+         });
+         await delay(1000)
+         var cpfResponsavel = await page.$("input[name='cpfResponsavel']");
+         await cpfResponsavel.click();
+         await page.keyboard.type($cpf.toString(), {
+             delay: 100
+         });
+         await delay(1000)
+         var rgResponsavel = await page.$("input[name='rgResponsavel']");
+         await rgResponsavel.click();
+         await page.keyboard.type($rg.toString(), {
+             delay: 100
+         });
+         await delay(1000)              
+         var tipoPessoaFisica = await page.$("input[value='FISICA']");
+         await tipoPessoaFisica.click();
+         await delay(1000)        
+         var cpfOuCnpj = await page.$("input[name='cpfOuCnpj']");
+         await cpfOuCnpj.click();
+         await page.keyboard.type(usercpf.toString(), {
+             delay: 100
+         });
+         var rgOuIe = await page.$("input[name='rgOuIe']");
+         await rgOuIe.click();
+         await page.keyboard.type(userrg.toString(), {
+             delay: 100
+         });
+         await delay(1000)
+         var dataNascimento = await page.$("input[name='dataNascimento']");
+         await dataNascimento.click();
+         page.keyboard.press('Backspace')
+         page.keyboard.press('Backspace')
+         page.keyboard.press('Backspace')
+         page.keyboard.press('Backspace')
+         page.keyboard.press('Backspace')
+         page.keyboard.press('Backspace')
+         page.keyboard.press('Backspace')
+         page.keyboard.press('Backspace')
+         page.keyboard.press('Backspace')
+         page.keyboard.press('Backspace')
+
+         await page.keyboard.type(userdata.toString(), {
+             delay: 100
+         });
+         await delay(1000)  
+         if(usergenero.includes("Mulher")){      
+         var sexo = await page.$("input[value='FEMININO']");
+        }
+        if(usergenero.includes("Homem")){      
+            var sexo = await page.$("input[value='MASCULINO']");        
+        }
+        if(usergenero.includes("Travesti")){      
+            var sexo = await page.$("input[value='MASCULINO']");        
+        }
+        if(usergenero.includes("Não")){      
+            var sexo = await page.$("input[value='MASCULINO']");        
+        }
+        if(usergenero.includes("Outro")){      
+            var sexo = await page.$("input[value='MASCULINO']");        
+        }
+         await sexo.click();
+         await delay(1000)
+         await page.select(".js-tipo-telefone", "2")
+         await delay(1000)
+         var telefone = await page.$("#telefone");
+         await telefone.click();
+           await page.keyboard.type(userphone.toString(), {
+             delay: 10
+         });
+         await delay(1000)
+         var buttonTel = await page.$("span[class='input-group-btn'] > button");
+         await buttonTel.click();
+         await delay(1000)
+         var cep = await page.$("input[name='endereco.cep']");
+         await cep.click();
+           await page.keyboard.type(usercep.toString(), {
+             delay: 10
+         });
+         await delay(1000)
+         var endereco = await page.$("input[name='endereco.logradouro']");
+         await delay(1000)
+         await endereco.click();
+             await page.keyboard.type(userendereco.toString(), {
+               delay: 10
+           });
+           await delay(1000)
+           var numero = await page.$("input[name='endereco.numero']");
+           await numero.click();
+            await page.keyboard.type(usernumero.toString(), {
+             delay: 10
+           });
+         await delay(1000)
+
+    var estados = [
+        {estadoSigla: 'AC', estado: 'Acre' },
+        {estadoSigla: 'AL', estado: 'Alagoas' },
+        {estadoSigla: 'AP', estado: 'Amapá' },
+        {estadoSigla: 'AM', estado: 'Amazonas' },
+        {estadoSigla: 'BA', estado: 'Bahia' },
+        {estadoSigla: 'CE', estado: 'Ceará' },
+        {estadoSigla: 'DF', estado: 'Distrito Federal' },
+        {estadoSigla: 'ES', estado: 'Espírito Santo' },
+        {estadoSigla: 'GO', estado: 'Goías' },
+        {estadoSigla: 'MA', estado: 'Maranhão' },
+        {estadoSigla: 'MT', estado: 'Mato Grosso' },
+        {estadoSigla: 'MS', estado: 'Mato Grosso do Sul' },
+        {estadoSigla: 'MG', estado: 'Minas Gerais' },
+        {estadoSigla: 'PA', estado: 'Pará' },
+        {estadoSigla: 'PB', estado: 'Paraíba' },
+        {estadoSigla: 'PR', estado: 'Paraná' },
+        {estadoSigla: 'PE', estado: 'Pernambuco' },
+        {estadoSigla: 'PI', estado: 'Piauí' },
+        {estadoSigla: 'RJ', estado: 'Rio de Janeiro' },
+        {estadoSigla: 'RN', estado: 'Rio Grande do Norte' },
+        {estadoSigla: 'RS', estado: 'Rio Grande do Sul' },
+        {estadoSigla: 'RO', estado: 'Rondônia' },
+        {estadoSigla: 'RR', estado: 'Roraíma' },
+        {estadoSigla: 'SC', estado: 'Santa Catarina' },
+        {estadoSigla: 'SP', estado: 'São Paulo' },
+        {estadoSigla: 'SE', estado: 'Sergipe' },
+        {estadoSigla: 'TO', estado: 'Tocantins' },
+      ]
+
+      var estadoOption = ''
+      var optionValue = ''
+      var optionText = []
+    
+      estados.forEach(async element => {
+         if(element.estadoSigla == userestado){
+            estadoOption = element.estado
+            estadoOption = estadoOption.toString()            
+            optionText = await page.$$eval('#estado > option', options => {
+                return options.map(option => option.textContent);
+              });
+            optionValue = await page.$$eval('#estado > option', options => {
+                return options.map(option => option.value);
+              });            
+              
+              for(var x=0;x < optionText.length;x++){
+                    if(optionText[x] == estadoOption){
+                       await page.select("select[id='estado']", optionValue[x].toString())
+                    }
+              }
+                     
+        }        
+        
+      });
+
+      
+      await delay(5000)
+
+      var optionValueCidade = ''
+      var optionTextCidade = []
+
+      optionTextCidade = await page.$$eval('#cidade > option', options => {
+        return options.map(option => option.textContent);
+      });
+
+      optionValueCidade = await page.$$eval('#cidade > option', options => {
+        return options.map(option => option.value);
+      });
+      
+      for(t=0;t<optionValueCidade.length;t++){            
+        if(optionTextCidade[t] == usercidade){
+            await page.select("select[id='cidade']", optionValueCidade[t].toString())
+         }
+      }          
+
         await delay(1000)
-        var email = await page.$("input[name='email']");
-        await email.click();
-             await page.keyboard.type(useremail, {
-            delay: 100
-        });
-        await delay(1000)
-        var nomeResponsavel = await page.$("input[name='nomeResponsavel']");
-        await nomeResponsavel.click();
-          await page.keyboard.type("xxxx", {
-            delay: 100
-        });
-        await delay(1000)
-        var cpfResponsavel = await page.$("input[name='cpfResponsavel']");
-        await cpfResponsavel.click();
-        await page.keyboard.type("453453543", {
-            delay: 100
-        });
-        await delay(1000)
-        var rgResponsavel = await page.$("input[name='rgResponsavel']");
-        await rgResponsavel.click();
-        await page.keyboard.type("45345354345", {
-            delay: 100
-        });
-        await delay(1000)
-        var tipoPessoaFisica = await page.$("input[value='FISICA']");
-        await tipoPessoaFisica.click();
-        await delay(1000)        
-        var cpfOuCnpj = await page.$("input[name='cpfOuCnpj']");
-        await cpfOuCnpj.click();
-        await page.keyboard.type("453453543", {
-            delay: 100
-        });
-        var rgOuIe = await page.$("input[name='rgOuIe']");
-        await rgOuIe.click();
-        await page.keyboard.type("453453543", {
-            delay: 100
-        });
-        await delay(1000)
-        var dataNascimento = await page.$("input[name='dataNascimento']");
-        await dataNascimento.click();
-        await page.keyboard.type("01/01/0101", {
-            delay: 100
-        });
-        await delay(1000)        
-        var sexoMasc = await page.$("input[value='MASCULINO']");
-        await sexoMasc.click();
-        await delay(1000)
-        await page.select(".js-tipo-telefone", "2")
-        await delay(1000)
-        var telefone = await page.$("#telefone");
-        await telefone.click();
-          await page.keyboard.type("48999778888", {
-            delay: 10
-        });
-        await delay(1000)
-       // var buttonTel = await page.$("span[class='input-group-btn'] > button");
-      //  await buttonTel.click();
-      //  await delay(1000)
-        var cep = await page.$("input[name='endereco.cep']");
-        await cep.click();
-          await page.keyboard.type("xxxx", {
-            delay: 10
-        });
-        await delay(1000)
-        var endereco = await page.$("input[name='endereco.logradouro']");
-        await delay(1000)
-        await endereco.click();
-          await page.keyboard.type("xxxx", {
-            delay: 10
-        });
-        await delay(1000)
-        var numero = await page.$("input[name='endereco.numero']");
-        await numero.click();
-          await page.keyboard.type("xxxx", {
-            delay: 10
-        });
-        await delay(1000)
-        var estado = await page.$("select[id='estado']");
-        await delay(1000)
-        var cidade = await page.$("select[id='cidade']");
-        await delay(1000)
-        var complemento = await page.$("input[name='endereco.complemento']");
-        await complemento.click();
-          await page.keyboard.type("xxxx", {
-            delay: 10
-        });
+ 
         await delay(1000)
         var bairro = await page.$("input[name='endereco.bairro']");
         await bairro.click();
-          await page.keyboard.type("xxxx", {
+          await page.keyboard.type(userbairro.toString(), {
             delay: 10
         });   
+
+        
      
     } catch (error) {
         console.log(error)
