@@ -53,9 +53,7 @@ app.post("/", async (req,res)=>{
 
         let browser = await puppeteer.launch(options);
         let page = await browser.newPage();
-        await page.goto('https://web.spdataminhaclinica.com.br/login');
-
-        console.log("Tudo OK")
+        await page.goto('https://web.spdataminhaclinica.com.br/login');        
 
         var usernameInput = await page.$("input[name='username']");
         var passwordInput = await page.$("input[name='password']");
@@ -271,6 +269,8 @@ app.post("/", async (req,res)=>{
           await page.keyboard.type(userbairro.toString(), {
             delay: 10
         }); 
+
+        console.log("Tudo OK")
                  
      
     } catch (error) {
