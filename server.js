@@ -48,7 +48,7 @@ app.post("/", async (req,res)=>{
 
         let options = {
             args: ['--no-sandbox', '--disable-setuid-sandbox'],        
-            headless: false,
+            headless: true,
         };
 
         let browser = await puppeteer.launch(options);
