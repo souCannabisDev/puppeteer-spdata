@@ -118,84 +118,90 @@ app.post("/", async (req,res)=>{
         
         await delay(10000)
         
-         var nome = await page.$("input[name='nome']");
-         await nome.click();
-            await page.keyboard.type(username, {
-             delay: 100
-         });
-         await delay(1000)
-         var email = await page.$("input[name='email']");
-         await email.click();
-              await page.keyboard.type(useremail.toString(), {
-             delay: 100
-         });
-         await delay(1000)
-         var nomeResponsavel = await page.$("input[name='nomeResponsavel']");
-         await nomeResponsavel.click();
-           await page.keyboard.type($responsavel.toString(), {
-             delay: 100
-         });
-         await delay(1000)
-         await log("info","Preenchendo dados pessoais do paciente","SpData Puppeteer") 
-         var cpfResponsavel = await page.$("input[name='cpfResponsavel']");
-         await cpfResponsavel.click();
-         await page.keyboard.type($cpf.toString(), {
-             delay: 100
-         });
-         await delay(1000)
-         var rgResponsavel = await page.$("input[name='rgResponsavel']");
-         await rgResponsavel.click();
-         await page.keyboard.type($rg.toString(), {
-             delay: 100
-         });
-         await delay(1000)              
-         var tipoPessoaFisica = await page.$("input[value='FISICA']");
-         await tipoPessoaFisica.click();
-         await delay(1000)        
-         var cpfOuCnpj = await page.$("input[name='cpfOuCnpj']");
-         await cpfOuCnpj.click();
-         await page.keyboard.type(usercpf.toString(), {
-             delay: 100
-         });
-         var rgOuIe = await page.$("input[name='rgOuIe']");
-         await rgOuIe.click();
-         await page.keyboard.type(userrg.toString(), {
-             delay: 100
-         });
-         await delay(1000)
-         await log("info","Data de nascimento","SpData Puppeteer") 
-         var dataNascimento = await page.$("input[name='dataNascimento']");
-         await dataNascimento.click();
-         page.keyboard.press('Backspace')
-         page.keyboard.press('Backspace')
-         page.keyboard.press('Backspace')
-         page.keyboard.press('Backspace')
-         page.keyboard.press('Backspace')
-         page.keyboard.press('Backspace')
-         page.keyboard.press('Backspace')
-         page.keyboard.press('Backspace')
-         page.keyboard.press('Backspace')
-         page.keyboard.press('Backspace')
+          var nome = await page.$("input[name='nome']");
+          await nome.click();
+             await page.keyboard.type(username, {
+              delay: 100
+          });
+          await delay(1000)
+          var email = await page.$("input[name='email']");
+          await email.click();
+               await page.keyboard.type(useremail.toString(), {
+              delay: 100
+          });
+          await delay(1000)
+          var nomeResponsavel = await page.$("input[name='nomeResponsavel']");
+          await nomeResponsavel.click();
+            await page.keyboard.type($responsavel.toString(), {
+              delay: 100
+          });
+          await delay(1000)
+          await log("info","Preenchendo dados pessoais do paciente","SpData Puppeteer") 
+          var cpfResponsavel = await page.$("input[name='cpfResponsavel']");
+          await cpfResponsavel.click();
+          await page.keyboard.type($cpf.toString(), {
+              delay: 100
+          });
+          await delay(1000)
+          var rgResponsavel = await page.$("input[name='rgResponsavel']");
+          await rgResponsavel.click();
+          await page.keyboard.type($rg.toString(), {
+              delay: 100
+          });
+          await delay(1000)              
+          var tipoPessoaFisica = await page.$("input[value='FISICA']");
+          await tipoPessoaFisica.click();
+          await delay(1000)        
+          var cpfOuCnpj = await page.$("input[name='cpfOuCnpj']");
+          await cpfOuCnpj.click();
+          await page.keyboard.type(usercpf.toString(), {
+              delay: 100
+          });
+          var rgOuIe = await page.$("input[name='rgOuIe']");
+          await rgOuIe.click();
+          await page.keyboard.type(userrg.toString(), {
+              delay: 100
+          });
+          await delay(1000)
+          await log("info","Data de nascimento","SpData Puppeteer") 
+          var dataNascimento = await page.$("input[name='dataNascimento']");
+          await dataNascimento.click();
+          page.keyboard.press('Backspace')
+          page.keyboard.press('Backspace')
+          page.keyboard.press('Backspace')
+          page.keyboard.press('Backspace')
+          page.keyboard.press('Backspace')
+          page.keyboard.press('Backspace')
+          page.keyboard.press('Backspace')
+          page.keyboard.press('Backspace')
+          page.keyboard.press('Backspace')
+          page.keyboard.press('Backspace')
 
-         await page.keyboard.type(userdata.toString(), {
-             delay: 100
-         });
-         await delay(1000)  
+          await page.keyboard.type(userdata.toString(), {
+              delay: 100
+          });
+          await delay(2000)  
          await log("info","Gênero","SpData Puppeteer") 
+
+         page.keyboard.press('Enter')
+
+
+         var sexo = ''
+
          if(usergenero.includes("Mulher")){      
-         var sexo = await page.$("input[value='FEMININO']");
+          sexo = await page.$("#sexo2");
         }
         if(usergenero.includes("Homem")){      
-            var sexo = await page.$("input[value='MASCULINO']");        
+             sexo = await page.$("#sexo1")                
         }
         if(usergenero.includes("Travesti")){      
-            var sexo = await page.$("input[value='MASCULINO']");        
+             sexo = await page.$("#sexo1");        
         }
         if(usergenero.includes("Não")){      
-            var sexo = await page.$("input[value='MASCULINO']");        
+             sexo = await page.$("#sexo1");        
         }
         if(usergenero.includes("Outro")){      
-            var sexo = await page.$("input[value='MASCULINO']");        
+             sexo = await page.$("#sexo1");        
         }
          await sexo.click();
          await delay(1000)
