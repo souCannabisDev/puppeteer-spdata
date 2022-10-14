@@ -1,10 +1,32 @@
 const express = require('express')
+var axios = require('axios');
 const app = express()
 const puppeteer = require('puppeteer');
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
+function log(logtype,message,pipe){
+    var timedate = new Date()
+    var dataLog = JSON.stringify({
+        "logtype": logtype,
+        "message": message,
+        "pipe": pipe,
+        "timedate": timedate
+    });
+
+    var sendlog = {
+        method: 'post',
+        url: 'https://logsapi-production.up.railway.app',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data : dataLog
+      };
+      axios(sendlog)
+}
+
 
 
 app.post("/", async (req,res)=>{
@@ -53,11 +75,15 @@ app.post("/", async (req,res)=>{
 
         let browser = await puppeteer.launch(options);
         let page = await browser.newPage();
-        await page.goto('https://web.spdataminhaclinica.com.br/login');        
+        await page.goto('https://web.spdataminhaclinica.com.br/login'); 
+        
+        await log("info","Abrindo SpData","SpData Puppeteer") 
 
         var usernameInput = await page.$("input[name='username']");
         var passwordInput = await page.$("input[name='password']");
         var submit = await page.$("button[type='submit']");
+
+        await log("info","Fazendo Login","SpData Puppeteer") 
       
          await usernameInput.click();
          await page.keyboard.type("sistemas@soucannabis.ong.br", {
@@ -73,9 +99,13 @@ app.post("/", async (req,res)=>{
       
          await page.waitForSelector("#main-navbar")
 
+         await log("info","Login realizado com sucesso! Redirecionando....","SpData Puppeteer") 
+
          await delay(5000)
       
         await page.goto("https://web.spdataminhaclinica.com.br/paciente/novo")
+
+        await log("info","Cadastrando um novo paciente","SpData Puppeteer") 
       
          var nome = await page.$("input[name='nome']");
          await nome.click();
@@ -95,6 +125,7 @@ app.post("/", async (req,res)=>{
              delay: 100
          });
          await delay(1000)
+         await log("info","Preenchendo dados pessoais do paciente","SpData Puppeteer") 
          var cpfResponsavel = await page.$("input[name='cpfResponsavel']");
          await cpfResponsavel.click();
          await page.keyboard.type($cpf.toString(), {
@@ -121,6 +152,7 @@ app.post("/", async (req,res)=>{
              delay: 100
          });
          await delay(1000)
+         await log("info","Data de nascimento","SpData Puppeteer") 
          var dataNascimento = await page.$("input[name='dataNascimento']");
          await dataNascimento.click();
          page.keyboard.press('Backspace')
@@ -138,6 +170,7 @@ app.post("/", async (req,res)=>{
              delay: 100
          });
          await delay(1000)  
+         await log("info","Gênero","SpData Puppeteer") 
          if(usergenero.includes("Mulher")){      
          var sexo = await page.$("input[value='FEMININO']");
         }
@@ -172,6 +205,7 @@ app.post("/", async (req,res)=>{
              delay: 10
          });
          await delay(1000)
+         await log("info","Preenchendo o endereço","SpData Puppeteer") 
          var endereco = await page.$("input[name='endereco.logradouro']");
          await delay(1000)
          await endereco.click();
@@ -185,6 +219,8 @@ app.post("/", async (req,res)=>{
              delay: 10
            });
          await delay(1000)
+
+         await log("info","Selecionando o estado","SpData Puppeteer") 
 
     var estados = [
         {estadoSigla: 'AC', estado: 'Acre' },
@@ -244,6 +280,8 @@ app.post("/", async (req,res)=>{
       
       await delay(5000)
 
+      await log("info","Selecionando a cidade","SpData Puppeteer") 
+
       var optionValueCidade = ''
       var optionTextCidade = []
 
@@ -270,15 +308,16 @@ app.post("/", async (req,res)=>{
             delay: 10
         }); 
 
-        console.log("Tudo OK")
+        await log("info","Cadastro feito com sucesso!","SpData Puppeteer") 
                  
      
     } catch (error) {
+        await log("error","Erro ao cadastrar o usuário, configra o log","SpData Puppeteer") 
         console.log(error)
     }
 })
 
-app.listen(process.env.PORT || 3000, (err)=>{
+app.listen(process.env.PORT || 4000, (err)=>{
     if(err)throw err;
-    console.log('listening on port 3000')
+    console.log('listening on port 4000')
 })
