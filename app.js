@@ -71,11 +71,7 @@ app.post("/", async (req,res)=>{
     try {      
 
         let options = {
-            args: ['--no-sandbox', '--disable-setuid-sandbox'],    
-            defaultViewport: {
-              width: 1366,
-              height: 768,
-          },     
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],        
             headless: true,
         };
 
