@@ -336,6 +336,6 @@ app.post("/", async (req,res)=>{
 })
 
 app.listen(process.env.PORT || 4000, (err)=>{
-    if(err)throw err;
+    if(err)throw err; //x
     console.log('listening on port 4000')
 })
